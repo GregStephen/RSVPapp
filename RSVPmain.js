@@ -45,11 +45,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 			li.appendChild(element);
 			return element;
 		}
-		
+
 		const li = document.createElement('li');
 		appendToLi('span', 'textContent', text);
 		appendToLi('label', 'textContent','confirmed')
-			.appendChild(createElement('input', 'type', 'checkbox');
+			.appendChild(createElement('input', 'type', 'checkbox'));
 		appendToLi('button', 'textContent', 'edit');
 		appendToLi('button', 'textContent', 'remove');
 		return li;
@@ -81,23 +81,38 @@ document.addEventListener('DOMContentLoaded', ()=>{
 			const button = e.target;
 			const li = button.parentNode;
 			const ul = li.parentNode;
+			const nameActions = {
+				remove: () => {
+					ul.removeChild(li);
+				},
+				edit: () => {
+					const span = li.firstElementChild;
+					const input = document.createElement('input');
+					input.type = 'text';
+					input.value = span.textContent;
+					li.insertBefore(input,span);
+					li.removeChild(span);
+					button.textContent = 'save';
+				},
+				save: () => {
+					const span = document.createElement('span');
+					const input = li.firstElementChild;
+					span.textContent = input.value;
+					li.insertBefore(span, input);
+					li.removeChild(input);
+					button.textContent = 'edit';
+				}
+			};
+			
+			
+		
+
 			if (button.textContent === 'remove'){
-			ul.removeChild(li);
+				removeName();
 			} else if (button.textContent === 'edit'){
-				const span = li.firstElementChild;
-				const input = document.createElement('input');
-				input.type = 'text';
-				input.value = span.textContent;
-				li.insertBefore(input,span);
-				li.removeChild(span);
-				button.textContent = 'save';
+				editName();
 			} else if (button.textContent === 'save'){
-				const span = document.createElement('span');
-				const input = li.firstElementChild;
-				span.textContent = input.value;
-				li.insertBefore(span, input);
-				li.removeChild(input);
-				button.textContent = 'edit';
+				saveName();
 			}
 		}
 	})
